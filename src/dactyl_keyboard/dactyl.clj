@@ -58,8 +58,7 @@
                               (translate [(+ (/ 1.5 2) (/ alps-notch-width 2))
                                           0
                                           (- plate-thickness
-                                             (/ alps-notch-height 2))]))
-                         )
+                                             (/ alps-notch-height 2))])))
         plate-half (union top-wall left-wall)]
     (union plate-half
            (->> plate-half
@@ -118,6 +117,7 @@
 (def rows (range 0 5))
 
 (def α (/ π 12))
+;; (def α 0)
 (def β (/ π 36))
 (def cap-top-height (+ plate-thickness sa-profile-key-height))
 (def row-radius (+ (/ (/ (+ mount-height 1/2) 2)
@@ -247,8 +247,8 @@
                             (Math/sin (/ β 2)))
                          cap-top-height)
         #_(+ (/ (/ (+ pillar-width 5) 2)
-                            (Math/sin (/ β 2)))
-                         cap-top-height)]
+                (Math/sin (/ β 2)))
+             cap-top-height)]
     (->> shape
          (translate [0 0 (- row-radius)])
          (rotate (* α row) [1 0 0])
@@ -435,9 +435,9 @@
 (def wall-sphere-top-front (wall-sphere-top 0))
 
 (defn top-case-cover [place-fn sphere
-                 x-start x-end
-                 y-start y-end
-                 step]
+                      x-start x-end
+                      y-start y-end
+                      step]
   (apply union
          (for [x (range-inclusive x-start (- x-end step) step)
                y (range-inclusive y-start (- y-end step) step)]
@@ -552,7 +552,7 @@
                                 (hull (place right-wall-column x (wall-sphere-top scale))
                                       (place right-wall-column x (wall-sphere-bottom scale))))))))
 
-          (apply union
+     (apply union
             (concat
              (for [x (range 0 5)]
                (union
@@ -848,12 +848,10 @@
                      [(union
                        (hull (case-place right-wall-column 0 (translate [-1 0 1] (wall-sphere-bottom 1/2)))
                              (case-place right-wall-column 0.02 (translate [-1 -1 1] (wall-sphere-bottom 1)))
-                             (key-place 5 0 web-post-tr)
-                             )
+                             (key-place 5 0 web-post-tr))
                        (hull (case-place right-wall-column 4 (translate [-1 0 1] (wall-sphere-bottom 1/2)))
                              (case-place right-wall-column 4 (translate [0 1 1] (wall-sphere-bottom 0)))
-                             (key-place 5 4 half-post-br)
-                             )
+                             (key-place 5 4 half-post-br))
                        (hull (case-place right-wall-column 4 (translate [-1 0 1] (wall-sphere-bottom 1/2)))
                              (key-place 5 4 half-post-br)
                              (key-place 5 4 web-post-tr)))])
@@ -943,8 +941,7 @@
                            (thumb-place 1/2 thumb-back-y (translate [0 -1 1] wall-sphere-bottom-back))
                            (case-place left-wall-column 1.6666 (translate [1 0 1] wall-sphere-bottom-front))
                            (key-place 0 3 web-post-tl)
-                           (thumb-place 1 1 web-post-tr))
-                          ]
+                           (thumb-place 1 1 web-post-tr))]
          thumb-left-wall [(hull
                            (thumb-place thumb-left-wall-column thumb-back-y (translate [1 -1 1] wall-sphere-bottom-back))
                            (thumb-place thumb-left-wall-column 0 (translate [1 0 1] wall-sphere-bottom-back))
@@ -1013,8 +1010,7 @@
                         (thumb-place 0 -1/2 web-post-br)
                         (thumb-place thumb-right-wall thumb-front-row (translate [-1 1 1] wall-sphere-bottom-front))
                         (key-place 1 4 (translate [0 0 8.5] web-post-bl))
-                        (key-place 1 4 half-post-bl)
-                        )]
+                        (key-place 1 4 half-post-bl))]
          stands (let [bumper-diameter 9.6
                       bumper-radius (/ bumper-diameter 2)
                       stand-diameter (+ bumper-diameter 2)
@@ -1135,7 +1131,7 @@
        (with-fn 50)
        (key-place 1/2 0)))
 
-(def trrs-box-hole (->> (cube 14 14 7 )
+(def trrs-box-hole (->> (cube 14 14 7)
                         (translate [0 1 -3.5])))
 
 
@@ -1165,8 +1161,7 @@
                (color [0 0 1]))
           (->> (cube 3 3 (+ teensy-pcb-thickness 3))
                (translate [0 (/ 30.5 -2) (+ (- teensy-offset-height)
-                                            #_(/ (+ teensy-pcb-thickness 3) -2)
-                                            )])
+                                            #_(/ (+ teensy-pcb-thickness 3) -2))])
                (key-place 1/2 3/2)
                (color [0 0 1]))))
    teensy-pcb

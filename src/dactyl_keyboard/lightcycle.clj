@@ -18,7 +18,7 @@
 (def mount-width (+ keyswitch-width 3))
 (def mount-height (+ keyswitch-height 3))
 
-#_(def single-plate
+(def single-plate
     (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
                         (translate [0
                                     (+ (/ 1.5 2) (/ keyswitch-height 2))
@@ -45,7 +45,7 @@
 (def alps-notch-height 1)
 (def alps-height 13)
 
-(def single-plate
+#_(def single-plate
   (let [top-wall (->> (cube (+ keyswitch-width 3) 2.2 plate-thickness)
                       (translate [0
                                   (+ (/ 2.2 2) (/ alps-height 2))
@@ -1270,7 +1270,7 @@
           thumb
           new-case
           teensy-support
-          #_caps)
+          caps)
    trrs-hole-just-circle
    screw-holes))
 
@@ -1314,27 +1314,27 @@
            trrs-hole-just-circle
            screw-holes)))
 
-(comment
-  (spit "things/lightcycle-cherry-top-right.scad"
-        (write-scad dactyl-top-right))
-
-  (spit "things/lightcycle-cherry-bottom-right.scad"
-        (write-scad dactyl-bottom-right))
-
-  (spit "things/lightcycle-cherry-top-left.scad"
-        (write-scad dactyl-top-left))
-
-  (spit "things/lightcycle-cherry-bottom-left.scad"
-        (write-scad dactyl-bottom-left)))
-
-(spit "things/lightcycle-matias-top-right.scad"
+(spit "things/lightcycle-cherry-top-right.scad"
       (write-scad dactyl-top-right))
 
-(spit "things/lightcycle-matias-bottom-right.scad"
+(spit "things/lightcycle-cherry-bottom-right.scad"
       (write-scad dactyl-bottom-right))
 
-(spit "things/lightcycle-matias-top-left.scad"
+(spit "things/lightcycle-cherry-top-left.scad"
       (write-scad dactyl-top-left))
 
-(spit "things/lightcycle-matias-bottom-left.scad"
+(spit "things/lightcycle-cherry-bottom-left.scad"
       (write-scad dactyl-bottom-left))
+
+(comment
+      (spit "things/lightcycle-matias-top-right.scad"
+            (write-scad dactyl-top-right))
+
+      (spit "things/lightcycle-matias-bottom-right.scad"
+            (write-scad dactyl-bottom-right))
+
+      (spit "things/lightcycle-matias-top-left.scad"
+            (write-scad dactyl-top-left))
+
+      (spit "things/lightcycle-matias-bottom-left.scad"
+            (write-scad dactyl-bottom-left)))

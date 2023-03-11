@@ -7,3 +7,9 @@
 .lein-*
 
 /target
+
+.calva
+.clj-kondo
+.lsp
+.vscode
+/things
