@@ -51,48 +51,33 @@
 (def keyhole (union half-keyhole
                     (rotate pi [0 0 1] half-keyhole)))
 
-(def keyswitch-height 14.4) ;; Was 14.1, then 14.25
-(def keyswitch-width 14.4)
+(defn column-y-offsets [i]
+  (if (< i 0)
+    0
+    ([0 2 4 2 0 0] i)))
 
+(defn translation-vector [col row] [(* keycap-space-width col) (+ (* (- keycap-space-width) row) (column-y-offsets col)) 0])
 
-(def alps-notch-width 15.5)
-(def alps-notch-height 1)
-(def alps-height 13)
+(defn key-place-flat [col row shape]
+  (translate (translation-vector col row) shape))
 
-;; (def single-plate
-;;   (let [top-wall (->> (cube (+ keyswitch-width 3) 2.2 plate-thickness)
-;;                       (translate [0
-;;                                   (+ (/ 2.2 2) (/ alps-height 2))
-;;                                   (/ plate-thickness 2)]))
-;;         left-wall (union (->> (cube 1.5 (+ keyswitch-height 3) plate-thickness)
-;;                               (translate [(+ (/ 1.5 2) (/ 15.6 2))
-;;                                           0
-;;                                           (/ plate-thickness 2)]))
-;;                          (->> (cube 1.5 (+ keyswitch-height 3) 1.0)
-;;                               (translate [(+ (/ 1.5 2) (/ alps-notch-width 2))
-;;                                           0
-;;                                           (- plate-thickness
-;;                                              (/ alps-notch-height 2))])))
-;;         plate-half (union top-wall left-wall)]
-;;     (union plate-half
-;;            (->> plate-half
-;;                 (mirror [1 0 0])
-;;                 (mirror [0 1 0])))))
-
-(def sa-profile-key-height 12.7)
-(def cap-top-height (+ plate-thickness sa-profile-key-height))
-
-(defn key-place-flat [column row shape]
-  (translate [(* 20 column) (* -20 row) 0] shape))
-
-;; (def key-holes
-;;   (apply union
-;;          (for [column columns
-;;                row rows
-;;                :when (or (not= column 0)
-;;                          (not= row 4))]
-;;            (->> single-plate
-;;                 (key-place-flat column row)))))
+(def thumb-cluster (->> (union (->> keyhole (key-place-flat 0 0))
+                               (->> keyhole (key-place-flat -1 0))
+                               (->> keyhole (key-place-flat -2 0)))
+                        (key-place-flat 0 4)))
+(def key-holes
+  (apply union
+         (for [col columns
+               row rows
+               :when (not
+                      (or
+                       (and (= col 0) (= row 4))
+                       (and (= col 1) (= row 4))
+                       (and (= col 4) (= row 4))
+                       (and (= col 5) (= row 4))))]
+           (->> keyhole
+                (key-place-flat col row)))))
+(def right-half (union key-holes thumb-cluster))
 
 (spit "things/mykeyboard.scad"
-      (write-scad keyhole))
+      (write-scad right-half))
