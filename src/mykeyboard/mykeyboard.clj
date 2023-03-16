@@ -1,35 +1,12 @@
-(ns dactyl-keyboard.mykeyboard
+(ns mykeyboard.mykeyboard
   (:refer-clojure :exclude [use import])
   (:require [scad-clj.scad :refer :all]
             [scad-clj.model :refer :all]
             [unicode-math.core :refer :all]
-            [dactyl-keyboard.util :refer :all]))
+            [mykeyboard.globals :refer :all]
+            [mykeyboard.utils :refer :all]))
 
 (binding [*center* false]
-
-  (def columns (range 0 6))
-  (def rows (range 0 5))
-
-  (def switchhole-width 14.4)
-  (def switchhole-notch-width 6)
-  (def switchhole-notch-height 1.5)
-  (def switchhole-notch-depth 2.75)
-  (def plate-thickness 4)
-  (def amoeba-king-support-radius 1.25)
-  (def amoeba-king-support-length 2)
-  (def keycap-space-width 19)
-  (def keyhole-side-width (/ (- keycap-space-width switchhole-width) 2))
-
-  (def epsilon 0.01)
-
-  (defn add-epsilon [x] (+ x epsilon))
-  (defn half-of [x] (/ x 2))
-  (defn half-cylinder [r h]
-    (->> (difference (cylinder r h)
-                     (->> (cube (* 2 r) r h)
-                          (translate [(- r) 0 0])))
-         (rotate (/ pi 2) [0 0 1])
-         (with-fn 60)))
 
   (def switchhole-notch
     (cube switchhole-notch-width (add-epsilon switchhole-notch-height) (add-epsilon switchhole-notch-depth)))
